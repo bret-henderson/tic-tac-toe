@@ -1,23 +1,71 @@
+const gameboard = document.querySelector('.gameboard');
 const gameboardSquares = document.querySelectorAll('.gameboard-square');
 const winnerMessage = document.querySelector('.winner-message');
+const boardHeader = document.querySelector('.board-header');
+const playersContainer = document.querySelector('.players-container');
+const loginForm = document.getElementById('player-name-form');
+const names = document.querySelectorAll('.name');
+const scores = document.querySelectorAll('.score');
+const nextRound = document.querySelector('.next-round');
+const playerInfos = document.querySelectorAll('.player-info');
+
+const Player = (name) => {
+  const getName = () => name;
+  return { name, getName };
+};
 
 const Admin = (() => {
   const score = 0;
   let turnNumber = 0;
   let playerTurn = 'X';
+  let playerOne = {};
+  let playerTwo = {};
 
   const getScore = () => score;
+  const getTurnNumber = () => turnNumber;
   const getPlayerTurn = () => playerTurn;
+  const getPlayerOne = () => playerOne;
+  const getPlayerTwo = () => playerTwo;
   const takeTurn = () => {
     turnNumber += 1;
     if (turnNumber % 2 === 0) playerTurn = 'X';
     else playerTurn = 'O';
   };
 
+  const initializeScoreboard = () => {
+    const playerOneInput = document.getElementById('player-one-name');
+    playerOne = Player(playerOneInput.value);
+    const playerTwoInput = document.getElementById('player-two-name');
+    playerTwo = Player(playerTwoInput.value);
+    names[0].textContent = `Player one: ${playerOne.getName()}`;
+    names[1].textContent = `Player two: ${playerTwo.getName()}`;
+
+    scores[0].textContent = 0;
+    scores[1].textContent = 0;
+  };
+
+  const updateScoreboard = (winner) => {
+    if (winner === 'X')
+      scores[0].textContent = Number(scores[0].textContent) + 1;
+    if (winner === 'O')
+      scores[1].textContent = Number(scores[1].textContent) + 1;
+  };
+
+  const resetGame = () => {
+    turnNumber = 0;
+    playerTurn = 'X';
+  };
+
   return {
     getScore,
+    getTurnNumber,
     getPlayerTurn,
     takeTurn,
+    initializeScoreboard,
+    updateScoreboard,
+    getPlayerOne,
+    getPlayerTwo,
+    resetGame,
   };
 })();
 
@@ -48,7 +96,7 @@ const Gameboard = (() => {
     // 2 4 6
     // 0 3 6
     // 1 4 7
-    // 2 6 8
+    // 2 5 8
     if (gbArray[0] === 'X' && gbArray[1] === 'X' && gbArray[2] === 'X')
       return 'X';
     if (gbArray[0] === 'O' && gbArray[1] === 'O' && gbArray[2] === 'O')
@@ -77,9 +125,9 @@ const Gameboard = (() => {
       return 'X';
     if (gbArray[1] === 'O' && gbArray[4] === 'O' && gbArray[7] === 'O')
       return 'O';
-    if (gbArray[2] === 'X' && gbArray[6] === 'X' && gbArray[8] === 'X')
+    if (gbArray[2] === 'X' && gbArray[5] === 'X' && gbArray[8] === 'X')
       return 'X';
-    if (gbArray[2] === 'O' && gbArray[6] === 'O' && gbArray[8] === 'O')
+    if (gbArray[2] === 'O' && gbArray[5] === 'O' && gbArray[8] === 'O')
       return 'O';
 
     return null;
@@ -93,26 +141,46 @@ const Gameboard = (() => {
   };
 })();
 
+loginForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+
+  playersContainer.style.display = 'none';
+  gameboard.style.display = 'grid';
+  boardHeader.style.display = 'grid';
+  Admin.initializeScoreboard();
+});
+
+nextRound.addEventListener('click', () => {
+  for (let i = 0; i < 9; i += 1) Gameboard.updateGameboard(i, '');
+  winnerMessage.textContent = '';
+  nextRound.style.display = 'none';
+  playerInfos[0].style.backgroundColor = 'white';
+  playerInfos[1].style.backgroundColor = 'white';
+  Admin.resetGame();
+});
+
 gameboardSquares.forEach((sq) =>
   sq.addEventListener('click', (e) => {
+    if (nextRound.style.display === 'block') return;
     if (Gameboard.isBlank(e)) {
       Gameboard.updateGameboard(Gameboard.getCoord(e), Admin.getPlayerTurn());
       Admin.takeTurn();
-      console.log(Gameboard.checkBoard());
-      if (Gameboard.checkBoard() !== null) {
-        winnerMessage.textContent = `${Gameboard.checkBoard()} wins!`;
+      if (Gameboard.checkBoard() === 'X') {
+        winnerMessage.textContent = `${Admin.getPlayerOne().getName()} wins!`;
+        Admin.updateScoreboard('X');
+        playerInfos[0].style.backgroundColor = 'lightGreen';
+        nextRound.style.display = 'block';
+      }
+      if (Gameboard.checkBoard() === 'O') {
+        winnerMessage.textContent = `${Admin.getPlayerTwo().getName()} wins!`;
+        Admin.updateScoreboard('O');
+        playerInfos[1].style.backgroundColor = 'lightGreen';
+        nextRound.style.display = 'block';
+      }
+      if (Admin.getTurnNumber() === 9) {
+        winnerMessage.textContent = 'Tie game!';
+        nextRound.style.display = 'block';
       }
     }
   })
 );
-
-const Player = (name, turn) => {
-  const getName = () => name;
-  const getTurn = () => turn;
-
-  return { name, turn, getName, getTurn };
-};
-
-const bret = Player('bret', true);
-const badGuy = Player('computer', false);
-// bret.takeTurn();
