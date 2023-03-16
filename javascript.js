@@ -15,21 +15,23 @@ const Player = (name) => {
 };
 
 const Admin = (() => {
-  const score = 0;
+  let round = 0;
   let turnNumber = 0;
   let playerTurn = 'X';
   let playerOne = {};
   let playerTwo = {};
 
-  const getScore = () => score;
+  const getRound = () => round;
   const getTurnNumber = () => turnNumber;
   const getPlayerTurn = () => playerTurn;
   const getPlayerOne = () => playerOne;
   const getPlayerTwo = () => playerTwo;
   const takeTurn = () => {
     turnNumber += 1;
-    if (turnNumber % 2 === 0) playerTurn = 'X';
-    else playerTurn = 'O';
+    if (turnNumber % 2 === 0 && round % 2 === 0) playerTurn = 'X';
+    else if (turnNumber % 2 === 1 && round % 2 === 0) playerTurn = 'O';
+    if (turnNumber % 2 === 0 && round % 2 === 1) playerTurn = 'O';
+    else if (turnNumber % 2 === 1 && round % 2 === 1) playerTurn = 'X';
   };
 
   const initializeScoreboard = () => {
@@ -53,11 +55,13 @@ const Admin = (() => {
 
   const resetGame = () => {
     turnNumber = 0;
-    playerTurn = 'X';
+    round += 1;
+    if (round % 2 === 0) playerTurn = 'X';
+    else playerTurn = 'O';
   };
 
   return {
-    getScore,
+    getRound,
     getTurnNumber,
     getPlayerTurn,
     takeTurn,
