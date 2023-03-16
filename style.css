@@ -108,6 +108,7 @@ button {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
   gap: 8px;
+  min-width: 332px;
   max-width: 852px;
   margin-top: 16px;
 }
