@@ -30,20 +30,20 @@ const Admin = (() => {
     turnNumber += 1;
     if (turnNumber % 2 === 0 && round % 2 === 0) {
       playerTurn = 'X';
-      playerInfos[0].style.backgroundColor = 'lightGrey';
+      playerInfos[0].style.backgroundColor = 'lightBlue';
       playerInfos[1].style.backgroundColor = 'white';
     } else if (turnNumber % 2 === 1 && round % 2 === 0) {
       playerTurn = 'O';
-      playerInfos[1].style.backgroundColor = 'lightGrey';
+      playerInfos[1].style.backgroundColor = 'lightBlue';
       playerInfos[0].style.backgroundColor = 'white';
     }
     if (turnNumber % 2 === 0 && round % 2 === 1) {
       playerTurn = 'O';
-      playerInfos[1].style.backgroundColor = 'lightGrey';
+      playerInfos[1].style.backgroundColor = 'lightBlue';
       playerInfos[0].style.backgroundColor = 'white';
     } else if (turnNumber % 2 === 1 && round % 2 === 1) {
       playerTurn = 'X';
-      playerInfos[0].style.backgroundColor = 'lightGrey';
+      playerInfos[0].style.backgroundColor = 'lightBlue';
       playerInfos[1].style.backgroundColor = 'white';
     }
   };
@@ -58,7 +58,7 @@ const Admin = (() => {
 
     scores[0].textContent = 0;
     scores[1].textContent = 0;
-    playerInfos[0].style.backgroundColor = 'lightGrey';
+    playerInfos[0].style.backgroundColor = 'lightBlue';
   };
 
   const updateScoreboard = (winner) => {
@@ -73,12 +73,12 @@ const Admin = (() => {
     round += 1;
     if (round % 2 === 0) {
       playerTurn = 'X';
-      playerInfos[0].style.backgroundColor = 'lightGrey';
+      playerInfos[0].style.backgroundColor = 'lightBlue';
       playerInfos[1].style.backgroundColor = 'white';
     } else {
       playerTurn = 'O';
       playerInfos[0].style.backgroundColor = 'white';
-      playerInfos[1].style.backgroundColor = 'lightGrey';
+      playerInfos[1].style.backgroundColor = 'lightBlue';
     }
   };
 
