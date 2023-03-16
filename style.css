@@ -6,7 +6,7 @@
 }
 
 header {
-  font-size: 4rem;
+  font-size: 3rem;
   padding: 16px;
   background-color: white;
   box-shadow: 0 4px 2px -2px rgb(0 0 0 / 15%);
@@ -30,7 +30,7 @@ header {
   width: 100%;
   aspect-ratio: 1/1;
   place-content: center;
-  font-size: 8rem;
+  font-size: min(24vw, 12rem);
   cursor: pointer;
 }
 
@@ -39,8 +39,8 @@ header {
 }
 
 .winner-message {
-  font-size: 4rem;
-  padding: 16px;
+  font-size: 2rem;
+  padding-bottom: 8px;
   text-align: center;
 }
 
@@ -107,17 +107,18 @@ button {
 .board-header {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
-  gap: 16px;
+  gap: 8px;
   max-width: 852px;
   margin-top: 16px;
 }
 
 .player-info {
-  font-size: 2rem;
+  font-size: 1.5rem;
   display: grid;
   justify-items: center;
   border-radius: 8px;
-  padding: 8px 0px;
+  margin: 0px 16px;
+  padding: 4px 0px;
 }
 
 .next-round-container {

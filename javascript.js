@@ -177,7 +177,11 @@ gameboardSquares.forEach((sq) =>
         playerInfos[1].style.backgroundColor = 'lightGreen';
         nextRound.style.display = 'block';
       }
-      if (Admin.getTurnNumber() === 9) {
+      if (
+        Admin.getTurnNumber() === 9 &&
+        Gameboard.checkBoard() !== 'X' &&
+        Gameboard.checkBoard() !== 'O'
+      ) {
         winnerMessage.textContent = 'Tie game!';
         nextRound.style.display = 'block';
       }
