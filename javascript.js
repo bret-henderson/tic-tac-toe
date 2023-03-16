@@ -28,10 +28,24 @@ const Admin = (() => {
   const getPlayerTwo = () => playerTwo;
   const takeTurn = () => {
     turnNumber += 1;
-    if (turnNumber % 2 === 0 && round % 2 === 0) playerTurn = 'X';
-    else if (turnNumber % 2 === 1 && round % 2 === 0) playerTurn = 'O';
-    if (turnNumber % 2 === 0 && round % 2 === 1) playerTurn = 'O';
-    else if (turnNumber % 2 === 1 && round % 2 === 1) playerTurn = 'X';
+    if (turnNumber % 2 === 0 && round % 2 === 0) {
+      playerTurn = 'X';
+      playerInfos[0].style.backgroundColor = 'lightGrey';
+      playerInfos[1].style.backgroundColor = 'white';
+    } else if (turnNumber % 2 === 1 && round % 2 === 0) {
+      playerTurn = 'O';
+      playerInfos[1].style.backgroundColor = 'lightGrey';
+      playerInfos[0].style.backgroundColor = 'white';
+    }
+    if (turnNumber % 2 === 0 && round % 2 === 1) {
+      playerTurn = 'O';
+      playerInfos[1].style.backgroundColor = 'lightGrey';
+      playerInfos[0].style.backgroundColor = 'white';
+    } else if (turnNumber % 2 === 1 && round % 2 === 1) {
+      playerTurn = 'X';
+      playerInfos[0].style.backgroundColor = 'lightGrey';
+      playerInfos[1].style.backgroundColor = 'white';
+    }
   };
 
   const initializeScoreboard = () => {
@@ -44,6 +58,7 @@ const Admin = (() => {
 
     scores[0].textContent = 0;
     scores[1].textContent = 0;
+    playerInfos[0].style.backgroundColor = 'lightGrey';
   };
 
   const updateScoreboard = (winner) => {
@@ -56,8 +71,15 @@ const Admin = (() => {
   const resetGame = () => {
     turnNumber = 0;
     round += 1;
-    if (round % 2 === 0) playerTurn = 'X';
-    else playerTurn = 'O';
+    if (round % 2 === 0) {
+      playerTurn = 'X';
+      playerInfos[0].style.backgroundColor = 'lightGrey';
+      playerInfos[1].style.backgroundColor = 'white';
+    } else {
+      playerTurn = 'O';
+      playerInfos[0].style.backgroundColor = 'white';
+      playerInfos[1].style.backgroundColor = 'lightGrey';
+    }
   };
 
   return {
@@ -173,11 +195,13 @@ gameboardSquares.forEach((sq) =>
         winnerMessage.textContent = `${Admin.getPlayerOne().getName()} wins!`;
         Admin.updateScoreboard('X');
         playerInfos[0].style.backgroundColor = 'lightGreen';
+        playerInfos[1].style.backgroundColor = 'white';
         nextRound.style.display = 'block';
       }
       if (Gameboard.checkBoard() === 'O') {
         winnerMessage.textContent = `${Admin.getPlayerTwo().getName()} wins!`;
         Admin.updateScoreboard('O');
+        playerInfos[0].style.backgroundColor = 'white';
         playerInfos[1].style.backgroundColor = 'lightGreen';
         nextRound.style.display = 'block';
       }
