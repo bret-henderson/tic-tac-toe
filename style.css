@@ -127,7 +127,7 @@ button {
 .next-round-container {
   display: flex;
   justify-content: center;
-  min-width: 300px;
+  min-width: 332px;
   max-width: 852px;
   padding: 0px 16px 16px;
 }
